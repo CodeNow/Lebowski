@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "make && mocha -R spec",
+    "start": "make && node server.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +18,11 @@
   },
   "dependencies": {
     "browserify": "~2.35.0",
-    "emit-stream": "~0.1.2",
-    "JSONStream": "~0.7.1",
-    "reconnect": "~1.5.2",
     "redis": "~0.9.0",
-    "shoe": "0.0.15",
-    "mux-demux": "~3.7.8",
-    "mocha": "~1.13.0"
+    "mocha": "~1.13.0",
+    "ecstatic": "~0.4.12",
+    "substream": "0.0.2",
+    "primus": "~1.4.4",
+    "ws": "~0.4.31"
   }
 }
