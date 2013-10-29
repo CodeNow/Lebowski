@@ -8,9 +8,15 @@ var primus = new Primus(server);
 primus.use('substream', require('substream'));
 
 primus.on('connection', function (spark) {
+  var subscribeSpark = spark.substream('subscriptions');
   var eventSpark = spark.substream('events');
-  events.on('done', function (data) {
-    eventSpark.write(data);
+  subscribeSpark.on('data', function (key) {
+    events.on('events:' + key, function (data) {
+      eventSpark.write({
+        key: key,
+        data: data
+      });
+    });
   });
 });
 
@@ -18,6 +24,6 @@ pubsub.on('pmessage', function (pattern, channel, message) {
   events.emit(channel, message);
 });
 
-pubsub.psubscribe('*');
+pubsub.psubscribe('events:*');
 
 server.listen(3480);
