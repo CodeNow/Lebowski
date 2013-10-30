@@ -10,8 +10,8 @@ describe('events', function () {
     });
     var socket = new Socket('http://localhost:3480');
     socket.on('open', function () {
-      socket.substream('events').on('data', function (message) {
-        if (message.key === 'done' && message.data === 'Fuck it, Dude, let\'s go bowling.') {
+      socket.substream('done').on('data', function (data) {
+        if (data === 'Fuck it, Dude, let\'s go bowling.') {
           done();
         } else {
           console.error(message);

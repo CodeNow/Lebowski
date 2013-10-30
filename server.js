@@ -9,13 +9,10 @@ primus.use('substream', require('substream'));
 
 primus.on('connection', function (spark) {
   var subscribeSpark = spark.substream('subscriptions');
-  var eventSpark = spark.substream('events');
   subscribeSpark.on('data', function (key) {
+    var eventSpark = spark.substream(key);
     events.on('events:' + key, function (data) {
-      eventSpark.write({
-        key: key,
-        data: data
-      });
+      eventSpark.write(data);
     });
   });
 });
