@@ -1,4 +1,5 @@
-var pubsub = require('redis').createClient();
+var configs = require('./configs');
+var pubsub = require('redis').createClient(configs.redisPort, configs.redisHost);
 var events = new (require('events').EventEmitter)();
 var Primus = require('primus');
 var http = require('http');
@@ -23,4 +24,19 @@ pubsub.on('pmessage', function (pattern, channel, message) {
 
 pubsub.psubscribe('events:*');
 
-server.listen(3480);
+server.listen(configs.port);
+
+
+// anounce frontend
+var client = require('redis').createClient(configs.redisPort, configs.redisHost);
+var front = 'frontend:cybertron.' + configs.domain;
+client.multi()
+  .del(front)
+  .rpush(front, 'The Dude')
+  .rpush(front, 'http://' + configs.host + ':' + configs.port)
+  .exec(function (err) {
+    if (err) {
+      throw err;
+    }
+    client.quit();
+  });

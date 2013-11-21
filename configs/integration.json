@@ -1,0 +1,7 @@
+{
+  "domain": "cloudcosmos.com",
+  "host": "10.0.1.226",
+  "port": 3480,
+  "redisPort": "6379",
+  "redisHost": "10.0.1.14"
+}

@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "make && mocha -R spec",
-    "start": "make && node server.js"
+    "test": "npm run build && NODE_ENV=testing mocha -R spec",
+    "start": "npm run build && node server.js",
+    "build": "browserify ./client.js -o ./public/bundle.js"
   },
   "repository": {
     "type": "git",

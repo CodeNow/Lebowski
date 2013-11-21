@@ -1,0 +1,7 @@
+{
+  "domain": "runnable2.net",
+  "host": "localhost",
+  "port": 3480,
+  "redisPort": "6379",
+  "redisHost": "127.0.0.1"
+}
