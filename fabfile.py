@@ -89,6 +89,7 @@ def install_requirements():
   with cd('Lebowski'):
     run('rm -rf node_modules')
     run('npm install')
+    run('npm run build')
 
 def boot():
   """
