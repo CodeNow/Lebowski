@@ -14,7 +14,7 @@ def production():
   """
   env.settings = 'production'
   env.hosts = [ 
-    'harbour'
+    'Lebowski'
   ]
  
 def integration():

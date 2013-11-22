@@ -1,6 +1,6 @@
 {
   "domain": "runnable.com",
-  "host": "10.0.1.243",
+  "host": "10.0.2.55",
   "port": 3480,
   "redisPort": "6379",
   "redisHost": "10.0.1.20"
