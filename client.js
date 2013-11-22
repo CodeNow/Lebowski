@@ -1,4 +1,4 @@
-var primus = new Primus();
+var primus = new Primus({ transformer: 'engine.io' });
 
 primus.substream('done').on('data', console.log.bind(console, 'done:'));
 primus.substream('subscriptions').write('done');

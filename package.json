@@ -24,6 +24,7 @@
     "ecstatic": "~0.4.12",
     "substream": "0.0.2",
     "primus": "~1.4.4",
-    "ws": "~0.4.31"
+    "engine.io": "~0.7.12",
+    "engine.io-client": "~0.7.12"
   }
 }

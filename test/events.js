@@ -4,6 +4,7 @@ describe('events', function () {
   it('should receive events from redis after subscribing', function (done) {
     var Primus = require('primus');
     var Socket = Primus.createSocket({
+      transformer: 'engine.io',
       plugin: {
         client: require('substream')
       }
