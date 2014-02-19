@@ -8,6 +8,8 @@ if (env == "development") {
   module.exports = require("./integration.json");
 } else if (env == "testing") {
   module.exports = require("./testing.json");
-} else {
-  module.exports = require("./production.json");
+} else if (env == "replica"){
+  module.exports = require("./replica.json");
+}else {
+	module.exports = require("./production.json");
 }
