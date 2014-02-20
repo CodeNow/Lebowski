@@ -1,0 +1,8 @@
+{
+  "domain": "runnable.pw",
+  "host": "10.0.1.9",
+  "port": 3480,
+  "redisPort": "6379",
+  "redisHost": "10.0.1.125"
+}
+
