@@ -8,6 +8,15 @@ env.use_ssh_config = True
 """
 Environments
 """
+def staging():
+  """
+  Work on staging environment
+  """
+  env.settings = 'staging'
+  env.hosts = [
+    'harbour-rep_int',
+  ]
+
 def production():
   """
   Work on production environment
@@ -19,7 +28,7 @@ def production():
  
 def integration():
   """
-  Work on staging environment
+  Work on integration environment
   """
   env.settings = 'integration'
   env.hosts = [ 
@@ -56,7 +65,7 @@ def setup():
   """
   Install and start the server.
   """
-  require('settings', provided_by=[production, integration])
+  require('settings', provided_by=[production, integration, staging])
   require('branch', provided_by=[stable, master, branch])
 
   clone_repo()
@@ -104,7 +113,7 @@ def deploy():
   """
   Deploy the latest version of the site to the server.
   """
-  require('settings', provided_by=[production, integration])
+  require('settings', provided_by=[production, integration, staging])
   require('branch', provided_by=[stable, master, branch])
       
   checkout_latest()
@@ -128,7 +137,7 @@ def rollback(commit_id):
   There is NO guarantee we have committed a valid dataset for an arbitrary
   commit hash.
   """
-  require('settings', provided_by=[production, integration])
+  require('settings', provided_by=[production, integration, staging])
   require('branch', provided_by=[stable, master, branch])
 
   checkout_latest()
