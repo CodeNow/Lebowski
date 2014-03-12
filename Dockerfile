@@ -21,4 +21,4 @@ RUN npm install
 EXPOSE 3480
 
 # Define default command.
-CMD ["npm", "start"]
+CMD ["bash", "-c", "npm start"]
