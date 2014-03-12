@@ -24,6 +24,4 @@ RUN npm run build
 EXPOSE 3480
 
 # Define default command.
-CMD ["bash",
-  "-c",
-  "/harbourmaster/node_modules/pm2 start server.js && /harbourmaster/node_modules/pm2 logs"]
+CMD ["bash", "-c", "/Lebowski/node_modules/.bin/pm2 start server.js && /Lebowski/node_modules/.bin/pm2 logs"]
