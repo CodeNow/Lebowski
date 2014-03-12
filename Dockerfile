@@ -14,11 +14,16 @@ RUN echo '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bash_pro
 WORKDIR /Lebowski
 ADD . /Lebowski
 
-# npm install
+# Npm install
 RUN npm install
+
+# Build
+RUN npm run build
 
 # Expose Port
 EXPOSE 3480
 
 # Define default command.
-CMD ["bash", "-c", "npm start"]
+CMD ["bash",
+  "-c",
+  "/harbourmaster/node_modules/pm2 start server.js && /harbourmaster/node_modules/pm2 logs"]
