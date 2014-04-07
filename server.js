@@ -1,4 +1,7 @@
 var configs = require('./configs');
+if (configs.newrelic) {
+  require('newrelic');
+}
 var pubsub = require('redis').createClient(configs.redisPort, configs.redisHost);
 var events = new (require('events').EventEmitter)();
 var Primus = require('primus');

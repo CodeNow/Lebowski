@@ -2,6 +2,10 @@
   "domain": "runnable2.net",
   "host": "localhost",
   "port": 3480,
+  "newrelic": {
+    "name": "api-development",
+    "key": "338516e0826451c297d44dc60aeaf0a0ca4bfead"
+  },
   "redisPort": "6379",
   "redisHost": "127.0.0.1"
 }
