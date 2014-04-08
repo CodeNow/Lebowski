@@ -3,7 +3,7 @@
   "host": "10.0.2.55",
   "port": 3480,
   "newrelic": {
-    "name": "api-production",
+    "name": "lebowski-production",
     "key": "338516e0826451c297d44dc60aeaf0a0ca4bfead"
   },
   "redisPort": "6379",

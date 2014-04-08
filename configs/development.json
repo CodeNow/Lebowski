@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 3480,
   "newrelic": {
-    "name": "api-development",
+    "name": "lebowski-development",
     "key": "338516e0826451c297d44dc60aeaf0a0ca4bfead"
   },
   "redisPort": "6379",
