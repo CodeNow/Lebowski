@@ -2,10 +2,6 @@
   "domain": "cloudcosmos.com",
   "host": "10.0.1.191",
   "port": 3480,
-  "newrelic": {
-    "name": "lebowski-integration",
-    "key": "338516e0826451c297d44dc60aeaf0a0ca4bfead"
-  },
   "redisPort": "6379",
   "redisHost": "10.0.1.14"
 }
