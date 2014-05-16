@@ -16,7 +16,7 @@ def staging():
   env.requireNote = False;
   env.settings = 'staging'
   env.hosts = [
-    'harbour-rep_int',
+    'stage-lebowski',
   ]
 
 def production():
@@ -25,18 +25,18 @@ def production():
   """
   env.requireNote = True;
   env.settings = 'production'
-  env.hosts = [ 
-    'Lebowski'
+  env.hosts = [
+    'prod-lebowski'
   ]
- 
+
 def integration():
   """
   Work on integration environment
   """
   env.requireNote = False;
   env.settings = 'integration'
-  env.hosts = [ 
-    'harbour-int'
+  env.hosts = [
+    'int-lebowski'
   ]
 
 def runnable3():
@@ -57,13 +57,13 @@ def stable():
   Work on stable branch.
   """
   env.branch = 'stable'
- 
+
 def master():
   """
   Work on development branch.
   """
   env.branch = 'master'
- 
+
 def branch(branch_name):
   """
   Work on any specified branch.
@@ -81,17 +81,26 @@ def setup():
   require('settings', provided_by=[production, integration, staging])
   require('branch', provided_by=[stable, master, branch])
 
+  install_node()
   clone_repo()
   checkout_latest()
   install_requirements()
   boot()
- 
+
+def install_node():
+  """
+  Install node
+  """
+  sudo('add-apt-repository ppa:chris-lea/node.js')
+  sudo('apt-get update')
+  sudo('apt-get install -y python-software-properties python g++ make nodejs')
+
 def clone_repo():
   """
   Do initial clone of the git repository.
   """
   run('git clone https://github.com/CodeNow/Lebowski.git')
- 
+
 def checkout_latest():
   """
   Pull the latest code on the specified branch.
@@ -101,7 +110,7 @@ def checkout_latest():
     run('git reset --hard')
     run('git checkout %(branch)s' % env)
     run('git pull origin %(branch)s' % env)
- 
+
 def install_requirements():
   """
   Install the required packages using npm.
@@ -171,14 +180,14 @@ def deploy():
   """
   require('settings', provided_by=[production, integration, staging, runnable3])
   require('branch', provided_by=[stable, master, branch])
-      
+
   addNote()
   checkout_latest()
   track_deployment()
   install_requirements()
   reboot()
- 
-def reboot(): 
+
+def reboot():
   """
   Restart the server.
   """
@@ -191,7 +200,7 @@ Commands - rollback
 def rollback(commit_id):
   """
   Rolls back to specified git commit hash or tag.
-  
+
   There is NO guarantee we have committed a valid dataset for an arbitrary
   commit hash.
   """
@@ -202,7 +211,7 @@ def rollback(commit_id):
   git_reset(commit_id)
   install_requirements()
   reboot()
-    
+
 def git_reset(commit_id):
   """
   Reset the git repository to an arbitrary commit hash or tag.
