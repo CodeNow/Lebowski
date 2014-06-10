@@ -21,12 +21,8 @@ describe_recipe 'runnable_lebowski::default' do
     file('/root/.ssh/runnable_lebowski.pub').must_exist
   end
 
-  it 'starts api-server service' do
-    shell_out('service api-server status').stdout.must_match(/^api-server start\/running, process [0-9]*$/)
-  end
-
-  it 'starts cleanup service' do
-    shell_out('service cleanup status').stdout.must_match(/^cleanup start\/running, process [0-9]*$/)
+  it 'starts lebowski' do
+    assert false
   end
 
 end

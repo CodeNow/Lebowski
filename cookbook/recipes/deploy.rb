@@ -72,4 +72,11 @@ execute 'smoke test' do
   command 'npm test'
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :run
+end
+
+service 'lebowski' do
+  action :start
+  stop_command 'pm2 stop Lebowski'
+  start_command "NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski"
+  supports :start => true, :stop => true
 end 
