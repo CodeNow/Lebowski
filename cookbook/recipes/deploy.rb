@@ -55,7 +55,8 @@ deploy node['runnable_lebowski']['deploy']['deploy_path'] do
   symlink_before_migrate({})
   symlinks({})
   action :deploy
-  notifies :create, 'file[lebowski_config]', :immediately 
+  notifies :create, 'file[lebowski_config]', :immediately
+  notifies :restart, 'service[lebowski]', :delayed 
 end
 
 file 'lebowski_config' do
@@ -63,18 +64,21 @@ file 'lebowski_config' do
   content JSON.pretty_generate node['runnable_lebowski']['deploy']['config']
   action :nothing
   notifies :run, 'execute[npm install]', :immediately
+  notifies :restart, 'service[lebowski]', :delayed 
 end
 
 execute 'npm install' do
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :nothing
   notifies :run, 'execute[npm run build]', :immediately
+  notifies :restart, 'service[lebowski]', :delayed 
 end
 
 execute 'npm run build' do
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :nothing
   notifies :start, 'service[lebowski]', :immediately
+  notifies :restart, 'service[lebowski]', :delayed 
 end
 
 service 'lebowski' do
@@ -83,4 +87,4 @@ service 'lebowski' do
   start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski'"
   status_command 'pm2 status | grep Lebowski | grep online'
   supports :start => true, :stop => true, :status => true
-end 
+end
