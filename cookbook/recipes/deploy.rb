@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+require 'json'
+
 directory '/root/.ssh' do
   owner 'root'
   group 'root'
@@ -53,6 +55,13 @@ deploy node['runnable_lebowski']['deploy']['deploy_path'] do
   symlink_before_migrate({})
   symlinks({})
   action :deploy
+  notifies :create, 'file[lebowski_config]', :immediately 
+end
+
+file 'lebowski_config' do
+  path "#{node['runnable_lebowski']['deploy']['deploy_path']}/current/configs/#{node.chef_environment}.json"
+  content JSON.pretty_generate node['runnable_lebowski']['deploy']['config']
+  action :nothing
   notifies :run, 'execute[npm install]', :immediately
 end
 
@@ -65,18 +74,19 @@ end
 execute 'npm run build' do
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :nothing
-  notifies :run, 'execute[smoke test]', :immediately
+  notifies :start, 'service[lebowski]', :immediately
 end
+
+service 'lebowski' do
+  action :start
+  stop_command 'pm2 stop Lebowski'
+  start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski'"
+  supports :start => true, :stop => true, :status => false
+  notifies :run, 'execute[smoke test]', :immediately
+end 
 
 execute 'smoke test' do
   command 'npm test'
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :run
 end
-
-service 'lebowski' do
-  action :start
-  stop_command 'pm2 stop Lebowski'
-  start_command "NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski"
-  supports :start => true, :stop => true
-end 

@@ -19,7 +19,13 @@ depends 'user'
 recipe 'runnable_api-server::default', 'Performs installaion/configuration of lebowski and all prerequisites'
 
 attribute 'runnable_lebowski/deploy/deploy_path',
-  :display_name => 'deploy path',
-  :description => 'The full directory path where lebowski will be deployed',
-  :type => 'string',
-  :default => '/opt/lebowski'
+  :display_name 	=> 'deploy path',
+  :description 		=> 'The full directory path where lebowski will be deployed',
+  :type 		=> 'string',
+  :default 		=> '/opt/lebowski'
+
+attribute 'runnable_lebowski/deploy/config',
+  :display_name 	=> 'lebowski config',
+  :description		=> 'A hash of config options to be included in the lebowski config file',
+  :type			=> 'hash',
+  :default		=> {}

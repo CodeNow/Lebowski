@@ -21,8 +21,12 @@ describe_recipe 'runnable_lebowski::default' do
     file('/root/.ssh/runnable_lebowski.pub').must_exist
   end
 
+  it 'configures lebowski' do
+    assert_includes_content('/opt/lebowski/current/configs/integration.json', node['lebowski']['deploy']['config'].to_json)
+  end
+
   it 'starts lebowski' do
-    assert false
+    assert shell_out('pgrep Lebowski').exitstatus == 0
   end
 
 end
