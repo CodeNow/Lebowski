@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && if [ -z \"$CHEF_ENV\" ] ; then export NODE_ENV=testing ; else export NODE_ENV=\"$CHEF_ENV\" ; fi ; mocha -R spec",
+    "test": "npm run build && NODE_ENV=testing mocha -R spec",
     "start": "npm run build && pm2 start server.js -n theDude && pm2 logs",
     "build": "browserify ./client.js -o ./public/bundle.js"
   },
