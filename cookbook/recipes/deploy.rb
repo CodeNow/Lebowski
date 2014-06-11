@@ -85,10 +85,3 @@ service 'lebowski' do
   supports :start => true, :stop => true, :status => true
   notifies :run, 'execute[smoke test]', :immediately
 end 
-
-execute 'smoke test' do
-  command 'npm test'
-  environment({'CHEF_ENV' => node.chef_environment})
-  cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
-  action :run
-end

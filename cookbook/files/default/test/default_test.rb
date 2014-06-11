@@ -29,4 +29,8 @@ describe_recipe 'runnable_lebowski::default' do
     assert shell_out('pgrep Lebowski').exitstatus == 0
   end
 
+  it 'listens on port 3480' do
+    assert shell_out('lsof -n -i :3480').exitstatus == 0
+  end
+
 end
