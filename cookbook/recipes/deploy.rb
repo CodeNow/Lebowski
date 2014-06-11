@@ -83,5 +83,4 @@ service 'lebowski' do
   start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski'"
   status_command 'pm2 status | grep Lebowski | grep online'
   supports :start => true, :stop => true, :status => true
-  notifies :run, 'execute[smoke test]', :immediately
 end 
