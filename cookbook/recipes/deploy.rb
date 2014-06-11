@@ -47,7 +47,7 @@ end
 deploy node['runnable_lebowski']['deploy']['deploy_path'] do
   repo 'git@github.com:CodeNow/Lebowski.git'
   git_ssh_wrapper '/tmp/git_sshwrapper.sh'
-  branch 'master'
+  branch 'chef_environment_cookbook' #master
   deploy_to node['runnable_lebowski']['deploy']['deploy_path']
   migrate false
   create_dirs_before_symlink []
