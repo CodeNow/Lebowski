@@ -87,6 +87,7 @@ end
 
 execute 'smoke test' do
   command 'npm test'
+  environment({'CHEF_ENV' => node.chef_environment})
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :run
 end
