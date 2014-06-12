@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: runnable_api-server
+# Cookbook Name:: runnable_lebowski
 # Recipe:: deploy
 #
 # Copyright 2014, Runnable.com
@@ -36,8 +36,8 @@ cookbook_file '/root/.ssh/runnable_lebowski.pub' do
   notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy']['deploy_path']}]", :delayed
 end
 
-cookbook_file '/tmp/git_sshwrapper.sh' do
-  source 'git_sshwrapper.sh'
+file '/tmp/git_sshwrapper.sh' do
+  content '#!/usr/bin/env bash\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "/root/.ssh/runnable_lebowski" $1 $2'
   owner 'root'
   group 'root'
   mode 0755
@@ -47,7 +47,7 @@ end
 deploy node['runnable_lebowski']['deploy']['deploy_path'] do
   repo 'git@github.com:CodeNow/Lebowski.git'
   git_ssh_wrapper '/tmp/git_sshwrapper.sh'
-  branch 'chef_environment_cookbook' #master
+  branch 'master'
   deploy_to node['runnable_lebowski']['deploy']['deploy_path']
   migrate false
   create_dirs_before_symlink []
@@ -77,7 +77,6 @@ end
 execute 'npm run build' do
   cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
   action :nothing
-  notifies :start, 'service[lebowski]', :immediately
   notifies :restart, 'service[lebowski]', :delayed 
 end
 
@@ -86,5 +85,6 @@ service 'lebowski' do
   stop_command 'pm2 stop Lebowski'
   start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski'"
   status_command 'pm2 status | grep Lebowski | grep online'
-  supports :start => true, :stop => true, :status => true
+  restart_command 'pm2 restart Lebowski'
+  supports :start => true, :stop => true, :status => true, :restart => true
 end
