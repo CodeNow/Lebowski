@@ -37,7 +37,7 @@ cookbook_file '/root/.ssh/runnable_lebowski.pub' do
 end
 
 file '/tmp/git_sshwrapper.sh' do
-  content '#!/usr/bin/env bash\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "/root/.ssh/runnable_lebowski" $1 $2'
+  content "#!/usr/bin/env bash\n/usr/bin/env ssh -o 'StrictHostKeyChecking=no' -i '/root/.ssh/runnable_lebowski' $1 $2\n"
   owner 'root'
   group 'root'
   mode 0755
