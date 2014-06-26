@@ -8,13 +8,7 @@ version          '0.1.5'
 
 supports 'ubuntu'
 
-depends 'runnable_base'
-depends 'apt'
-depends 'build-essential'
-depends 'nodejs'
-depends 'ssh_known_hosts'
-depends 'sudo'
-depends 'user'
+depends 'runnable_nodejs'
 
 recipe 'runnable_api-server::default', 'Performs installaion/configuration of lebowski and all prerequisites'
 
