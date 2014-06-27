@@ -26,8 +26,7 @@ suites:
         environment: integration
 
     run_list:
-      - recipe[runnable_base]
-      - recipe[runnable_base::redis]
-      - recipe[runnable_lebowski::default]
+      - recipe[runnable_redis]
+      - recipe[runnable_lebowski]
       - recipe[minitest-handler]
     attributes:
