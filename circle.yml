@@ -2,6 +2,9 @@ machine:
   environment:
     NODE_ENV: testing
 dependencies:
+  cache_directories:
+    - "vendor/bundle"
+    - "node_modules"
   override:
     - npm install
     - pip install fabric
@@ -18,4 +21,3 @@ test:
         timeout: 99999
   post:
     - cp cookbook/.kitchen/logs/* $CIRCLE_ARTIFACTS
-
