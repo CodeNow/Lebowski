@@ -25,7 +25,7 @@ cookbook_file '/root/.ssh/runnable_lebowski' do
   group 'root'
   mode 0600
   action :create
-  notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy']['deploy_path']}]", :delayed
+  notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy_path']}]", :delayed
   notifies :create, 'cookbook_file[/root/.ssh/runnable_lebowski.pub]', :immediately
 end
 
@@ -35,7 +35,7 @@ cookbook_file '/root/.ssh/runnable_lebowski.pub' do
   group 'root'
   mode 0600
   action :create
-  notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy']['deploy_path']}]", :delayed
+  notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy_path']}]", :delayed
 end
 
 file '/tmp/git_sshwrapper.sh' do
@@ -46,11 +46,11 @@ file '/tmp/git_sshwrapper.sh' do
   action :create
 end
 
-deploy node['runnable_lebowski']['deploy']['deploy_path'] do
+deploy node['runnable_lebowski']['deploy_path'] do
   repo 'git@github.com:CodeNow/Lebowski.git'
   git_ssh_wrapper '/tmp/git_sshwrapper.sh'
   branch 'master'
-  deploy_to node['runnable_lebowski']['deploy']['deploy_path']
+  deploy_to node['runnable_lebowski']['deploy_path']
   migrate false
   create_dirs_before_symlink []
   purge_before_symlink []
@@ -62,22 +62,22 @@ deploy node['runnable_lebowski']['deploy']['deploy_path'] do
 end
 
 file 'lebowski_config' do
-  path "#{node['runnable_lebowski']['deploy']['deploy_path']}/current/configs/#{node.chef_environment}.json"
-  content JSON.pretty_generate node['runnable_lebowski']['deploy']['config']
+  path "#{node['runnable_lebowski']['deploy_path']}/current/configs/#{node.chef_environment}.json"
+  content JSON.pretty_generate node['runnable_lebowski']['config']
   action :nothing
   notifies :run, 'execute[npm install]', :immediately
   notifies :restart, 'service[lebowski]', :delayed 
 end
 
 execute 'npm install' do
-  cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
+  cwd "#{node['runnable_lebowski']['deploy_path']}/current"
   action :nothing
   notifies :run, 'execute[npm run build]', :immediately
   notifies :restart, 'service[lebowski]', :delayed 
 end
 
 execute 'npm run build' do
-  cwd "#{node['runnable_lebowski']['deploy']['deploy_path']}/current"
+  cwd "#{node['runnable_lebowski']['deploy_path']}/current"
   action :nothing
   notifies :restart, 'service[lebowski]', :delayed 
 end
@@ -85,7 +85,7 @@ end
 service 'lebowski' do
   action :start
   stop_command 'pm2 stop Lebowski'
-  start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy']['deploy_path']}/current/server.js -n Lebowski'"
+  start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy_path']}/current/server.js -n Lebowski'"
   status_command 'pm2 status | grep Lebowski | grep online'
   restart_command 'pm2 restart Lebowski'
   supports :start => true, :stop => true, :status => true, :restart => true

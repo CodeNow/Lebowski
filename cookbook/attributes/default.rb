@@ -1,8 +1,8 @@
-default['runnable_lebowski']['deploy']['deploy_path']		= '/opt/lebowski'
+default['runnable_lebowski']['deploy_path']		= '/opt/lebowski'
 
 case node.chef_environment
 when 'integration'
-  default['runnable_lebowski']['deploy']['config'] = {
+  default['runnable_lebowski']['config'] = {
     :domain 	=> 'cloudcosmos.com',
     :host	=> '10.0.1.191',
     :port	=> 3480,
@@ -10,7 +10,7 @@ when 'integration'
     :redisHost	=> '10.0.1.14'
   }
 when 'staging'
-  default['runnable_lebowski']['deploy']['config'] = {
+  default['runnable_lebowski']['config'] = {
     :domain 	=> 'runnable.pw',
     :host	=> '10.0.1.9',
     :port	=> 3480,
@@ -18,7 +18,7 @@ when 'staging'
     :redisHost	=> '10.0.1.125'
   }
 when 'production'
-  default['runnable_lebowski']['deploy']['config'] = {
+  default['runnable_lebowski']['config'] = {
     :domain 	=> 'runnable.com',
     :host	=> '10.0.1.191',
     :port	=> 3480,
@@ -30,5 +30,5 @@ when 'production'
     :redisHost	=> '10.0.1.14'
   }
 else
-  default['runnable_lebowski']['deploy']['config'] = {}  
+  throw 'Error: unrecognized chef_environment. Must be one of: integration, staging, production'
 end
