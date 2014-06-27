@@ -9,6 +9,8 @@
 
 require 'json'
 
+package git
+
 directory '/root/.ssh' do
   owner 'root'
   group 'root'
