@@ -32,7 +32,6 @@ suites:
     attributes:
       runnable_lebowski:
         config:
-          redis:
-            host: 127.0.0.1
+          redisHost: 127.0.0.1
       runnable_redis:
         bind_address: 127.0.0.1
