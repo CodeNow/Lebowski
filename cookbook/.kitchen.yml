@@ -30,3 +30,9 @@ suites:
       - recipe[runnable_lebowski]
       - recipe[minitest-handler]
     attributes:
+      runnable_lebowski:
+        config:
+          redis:
+            host: 127.0.0.1
+      runnable_redis:
+        bind_address: 127.0.0.1
