@@ -1,0 +1,25 @@
+name             'runnable_lebowski'
+maintainer       'Runnable.com'
+maintainer_email 'ben@runnable.com'
+license          'All rights reserved'
+description      'Installs/Configures lebowski'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          '0.1.5'
+
+supports 'ubuntu'
+
+depends 'runnable_nodejs'
+
+recipe 'runnable_api-server::default', 'Performs installaion/configuration of lebowski and all prerequisites'
+
+attribute 'runnable_lebowski/deploy/deploy_path',
+  :display_name 	=> 'deploy path',
+  :description 		=> 'The full directory path where lebowski will be deployed',
+  :type 		=> 'string',
+  :default 		=> '/opt/lebowski'
+
+attribute 'runnable_lebowski/deploy/config',
+  :display_name 	=> 'lebowski config',
+  :description		=> 'A hash of config options to be included in the lebowski config file',
+  :type			=> 'hash',
+  :default		=> {}

@@ -1,0 +1,23 @@
+machine:
+  environment:
+    NODE_ENV: testing
+dependencies:
+  cache_directories:
+    - "cookbook/vendor/bundle"
+    - "node_modules"
+  override:
+    - npm install
+    - pip install fabric
+    - ruby -e 'if ENV["CIRCLE_BRANCH"] =~ /(.*chef.*)|(master)/ then exec "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --clean" end':
+        pwd: cookbook
+        timeout: 99999
+    - ruby -e 'if ENV["CIRCLE_BRANCH"] =~ /(.*chef.*)|(master)/ then exec "bundle exec berks install" end': 
+        pwd: cookbook
+test:
+  override:
+    - npm test
+    - ruby -e 'if ENV["CIRCLE_BRANCH"] =~ /(.*chef.*)|(master)/ then exec "bundle exec rake test" end': 
+        pwd: cookbook
+        timeout: 99999
+  post:
+    - cp cookbook/.kitchen/logs/* $CIRCLE_ARTIFACTS
