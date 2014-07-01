@@ -21,6 +21,7 @@ deploy node['runnable_lebowski']['deploy_path'] do
   symlinks({})
   action :deploy
   notifies :create, 'file[lebowski_config]', :immediately
+  notifies :create, 'template[/etc/init/lebowski.conf]', :immediately
   notifies :restart, 'service[lebowski]', :delayed 
 end
 
@@ -36,13 +37,11 @@ execute 'npm install' do
   cwd "#{node['runnable_lebowski']['deploy_path']}/current"
   action :nothing
   notifies :run, 'execute[npm run build]', :immediately
-  notifies :restart, 'service[lebowski]', :delayed 
 end
 
 execute 'npm run build' do
   cwd "#{node['runnable_lebowski']['deploy_path']}/current"
   action :nothing
-  notifies :restart, 'service[lebowski]', :delayed 
 end
 
 template '/etc/init/lebowski.conf' do
@@ -58,10 +57,6 @@ template '/etc/init/lebowski.conf' do
 end
 
 service 'lebowski' do
-  action :start
-  stop_command 'pm2 stop Lebowski'
-  start_command "bash -c 'NODE_ENV=#{node.chef_environment} pm2 start #{node['runnable_lebowski']['deploy_path']}/current/server.js -n Lebowski'"
-  status_command 'pm2 status | grep Lebowski | grep online'
-  restart_command 'pm2 restart Lebowski'
-  supports :start => true, :stop => true, :status => true, :restart => true
+  provider Chef::Provider::Service::Upstart
+  action [:start, :enable]
 end
