@@ -1,3 +1,4 @@
+default['runnable_lebowski']['deploy_branch']	= 'master'
 default['runnable_lebowski']['deploy_path']		= '/opt/lebowski'
 default['runnable_lebowski']['config'] = {
   'host' => node.ipaddress,
