@@ -24,7 +24,7 @@ describe_recipe 'runnable_lebowski::default' do
   end
 
   it 'starts lebowski' do
-    assert shell_out('pgrep Lebowski').exitstatus == 0
+    shell_out('service lebowski status').stdout.must_match(/^lebowski start\/running, process [0-9]*$/)
   end
 
   it 'listens on port 3480' do
