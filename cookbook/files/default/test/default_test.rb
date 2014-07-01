@@ -12,10 +12,6 @@ describe_recipe 'runnable_lebowski::default' do
     assert_equal("v0.10.28\n", node_version, "Incorrect node version present: #{node_version}")
   end
 
-  it 'installs pm2' do
-    assert shell_out('npm list -g pm2').exitstatus == 0
-  end
-
   it 'creates github ssh deploy key files' do
     file('/root/.ssh/runnable_lebowski').must_exist
     file('/root/.ssh/runnable_lebowski.pub').must_exist
