@@ -8,3 +8,6 @@
 #
 
 package 'git'
+
+node.set['runnable_nodejs']['version'] = '0.10.28'
+include_recipe 'runnable_nodejs'
