@@ -7,5 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'runnable_lebowski::nodejs'
+include_recipe 'runnable_lebowski::dependencies'
+include_recipe 'runnable_lebowski::deploy_ssh'
 include_recipe 'runnable_lebowski::deploy'

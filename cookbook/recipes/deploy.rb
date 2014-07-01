@@ -9,43 +9,6 @@
 
 require 'json'
 
-package 'git'
-
-directory '/root/.ssh' do
-  owner 'root'
-  group 'root'
-  mode 0700
-  action :create
-  notifies :create, 'cookbook_file[/root/.ssh/runnable_lebowski]', :immediately
-end
-
-cookbook_file '/root/.ssh/runnable_lebowski' do
-  source 'runnable_lebowski.key'
-  owner 'root'
-  group 'root'
-  mode 0600
-  action :create
-  notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy_path']}]", :delayed
-  notifies :create, 'cookbook_file[/root/.ssh/runnable_lebowski.pub]', :immediately
-end
-
-cookbook_file '/root/.ssh/runnable_lebowski.pub' do
-  source 'runnable_lebowski.pub'
-  owner 'root'
-  group 'root'
-  mode 0600
-  action :create
-  notifies :deploy, "deploy[#{node['runnable_lebowski']['deploy_path']}]", :delayed
-end
-
-file '/tmp/git_sshwrapper.sh' do
-  content "#!/usr/bin/env bash\n/usr/bin/env ssh -o 'StrictHostKeyChecking=no' -i '/root/.ssh/runnable_lebowski' $1 $2\n"
-  owner 'root'
-  group 'root'
-  mode 0755
-  action :create
-end
-
 deploy node['runnable_lebowski']['deploy_path'] do
   repo 'git@github.com:CodeNow/Lebowski.git'
   git_ssh_wrapper '/tmp/git_sshwrapper.sh'
@@ -80,6 +43,18 @@ execute 'npm run build' do
   cwd "#{node['runnable_lebowski']['deploy_path']}/current"
   action :nothing
   notifies :restart, 'service[lebowski]', :delayed 
+end
+
+template '/etc/init/lebowski.conf' do
+  source 'lebowski.conf.erb'
+  variables({
+    :name 		=> 'lebowski',
+    :deploy_path 	=> "#{node['runnable_lebowski']['deploy_path']}/current",
+    :log_file		=> '/var/log/lebowski.log',
+    :node_env 		=> node.chef_environment
+  })
+  action :create
+  notifies :restart, 'service[lebowski]', :immediately
 end
 
 service 'lebowski' do
