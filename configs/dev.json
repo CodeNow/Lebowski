@@ -1,5 +1,5 @@
 {
-  "domain": "code.runnable.biz",
+  "domain": "code.runnable.local",
   "host": "lebowski.service.consul",
   "port": 80,
   "redisPort": "6379",

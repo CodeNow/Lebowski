@@ -1,11 +1,7 @@
 {
-  "domain": "runnable.com",
-  "host": "10.0.2.55",
-  "port": 3480,
-  "newrelic": {
-    "name": "lebowski-production",
-    "key": "338516e0826451c297d44dc60aeaf0a0ca4bfead"
-  },
+  "domain": "code.runnable.com",
+  "host": "lebowski.service.consul",
+  "port": 80,
   "redisPort": "6379",
-  "redisHost": "10.0.1.20"
+  "redisHost": "redis.service.consul"
 }
